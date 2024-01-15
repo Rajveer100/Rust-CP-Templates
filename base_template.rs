@@ -1,15 +1,34 @@
 use std::io;
 use std::io::{BufWriter, stdout, Stdout, Write};
+
 // use std::mem::{swap, replace};
 // use std::cmp::{max, min, Ordering, Reverse};
-// use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet, VecDeque, BinaryHeap};
-// use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign, Neg};
+
+// use std::collections::{
+//     BTreeMap, BTreeSet, BinaryHeap,
+//     HashMap, HashSet, VecDeque
+// };
+
+use std::ops::{
+    Add, AddAssign,
+    Sub, SubAssign,
+    Mul, MulAssign,
+    Div, DivAssign,
+    Rem, RemAssign,
+    Neg
+};
+
+// use std::rc::Rc;
+// use std::cell::RefCell;
+
 // use itertools::Itertools;
 
 // const MOD: i64 = 1_000_000_007;
 // const MOD: i64 = 998_244_353;
+
 // const BIG_INF: i64 = 1_000_000_000_000_000_000;
 // const SMALL_INF: i32 = 1_000_000_000;
+
 // const MAX_LIM: i32 = 2_000_000;
 
 // const DIR4: [(i32, i32); 4] = [(1, 0), (0, 1), (-1, 0), (0, -1)];
@@ -20,6 +39,23 @@ use std::io::{BufWriter, stdout, Stdout, Write};
 
 fn solve(reader: &mut Reader, writer: &mut BufWriter<Stdout>) {
 
+}
+
+#[allow(dead_code)]
+fn gcd<T>(a: T, b: T) -> T
+    where T: Default + Copy + PartialEq + PartialOrd + Rem<Output = T> {
+    return if b == T::default() {
+        a
+    } else {
+        gcd(b, a % b)
+    }
+}
+
+#[allow(dead_code)]
+fn lcm<T>(a: T, b: T) -> T
+    where T: Default + Copy + PartialEq + PartialOrd + Rem<Output = T> +
+    Mul<Output = T> + Div<Output = T> {
+    (a * b) / gcd(a, b)
 }
 
 #[derive(Default)]
@@ -33,7 +69,7 @@ impl Reader {
         loop {
             if let Some(token) = self.buffer.pop() {
                 return token.parse().ok()
-                            .expect("Failed to parse!");
+                    .expect("Failed to parse!");
             }
 
             let mut input = String::new();
@@ -46,6 +82,17 @@ impl Reader {
 
     fn next_chars(&mut self) -> Vec<char> {
         self.next::<String>().chars().collect()
+    }
+
+    fn next_lines(&self) -> Vec<String> {
+        let mut input: Vec<String> = Vec::new();
+        for line in io::stdin().lines() {
+            if line.as_ref().unwrap().len() == 0 {
+                break
+            }
+            input.push(line.unwrap());
+        }
+        input
     }
 }
 
